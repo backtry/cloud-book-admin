@@ -31,6 +31,14 @@ export default new Router({
         {
           path:'users',
           component:components.users
+        },
+        {
+          path:'userDetails',
+          component:()=>import('../views/users/userDetails')
+        },
+        {
+          path:'bookcla',
+          component:()=>import('../views/book/bookcla')
         }
       ]
     }

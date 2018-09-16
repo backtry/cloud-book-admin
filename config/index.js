@@ -11,12 +11,9 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/admin':{
-        target:'https:///m.yaojunrong.com',
-        changeOringin:true,
-        // pathRewrite:{
-        //   '^/api/admin':'/'
-        // }
+      '/api/admin': {
+        target: 'https://m.yaojunrong.com',
+        changeOrigin: true
       }
     },
 
