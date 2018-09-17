@@ -24,10 +24,10 @@
       </el-table-column>
        <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
-            <el-button size="small" type="primary">
+            <el-button size="small" type="primary" @click="changecla(scope.row._id)">
               编辑
             </el-button>
-            <el-button  size="small" type="danger">
+            <el-button  size="small" type="danger" @click="deletecla(scope.row._id)">
               删除分类
             </el-button>
           </template>
@@ -49,6 +49,12 @@ export default {
                 console.log(res)
                 this.bookcla=res.data
             })
+        },
+        changecla(id){
+            this.$router.push({name: 'bookEditor', query: {id}})
+        },
+        deletecla(id){
+            
         }
     },
     created(){

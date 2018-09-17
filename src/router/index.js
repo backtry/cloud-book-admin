@@ -39,6 +39,11 @@ export default new Router({
         {
           path:'bookcla',
           component:()=>import('../views/book/bookcla')
+        },
+        {
+          path:'bookEditor',
+          name:'bookEditor',
+          component:()=>import('../views/book/editor')
         }
       ]
     }

@@ -51,14 +51,18 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-    .tc-fff
+    
     .header{
         margin-left: 200px;
         height: 60px;
         line-height: 60px;
         text-align: center;
         font-weight: 400px;
-        border: 1px solid #f1f1f1
+        border: 1px solid #f1f1f1;
+        // position: fixed;
+        // top: 0;
+        // right:0;
+        // left: 200px;
     }
     .navMenu{
         width: 200px;
@@ -71,5 +75,6 @@ export default {
     }
     .container{
         margin-left: 200px;
+       
     }
 </style>
