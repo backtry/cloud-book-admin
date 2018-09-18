@@ -45,9 +45,19 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button class="adduser-btn" type="primary" @click="userAdd">
-        添加管理员
-      </el-button>
+      <div class="bottom-bar">
+        <el-button class="adduser-btn" type="primary" @click="userAdd">
+          添加管理员
+        </el-button>
+        <el-pagination
+          background
+          
+          layout="prev, pager, next"
+          @current-change='changepage'
+          :total="count"
+          class="paging">
+        </el-pagination>
+      </div>
     </div>
 </template>
 
@@ -55,12 +65,16 @@
     export default {
       data() {
         return {
-          tableData: []
+          tableData: [],
+          page:1,
+          count:0
         }
       },
       methods: {
         getData() {
-          this.$axios.get('/user').then(res => {
+          this.$axios.get('/user',{pn:this.page,size:7}).then(res => {
+            console.log(res)
+            this.count=res.count
             if(res.code == 200) {
               this.tableData = res.data
             }
@@ -87,7 +101,11 @@
           });
         },
         userAdd(){
-
+          this.$router.push('/layout/useradd')
+        },
+        changepage(page){
+            this.page=page
+            this.getData()
         }
        
       },
@@ -113,8 +131,17 @@
     }
   }
   .adduser-btn {
-    margin: 0 auto;
+    margin-left: 100px;
   }
+}
+.bottom-bar{
+  display: flex;
+
+  .paging{
+    margin-left: 650px
+  }
+
+  
 }
 </style>
 

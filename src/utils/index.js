@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui';
+import router from '../router/index'
 
 const baseURL='/api/admin'
 const instance = axios.create({
@@ -13,7 +14,7 @@ const instance = axios.create({
         instance.get(url, {params: data}, config).then(res => {
           if (res.data.code == 401){
             Message.error('登录状态失效,正在进行跳转...')
-            router.push('/login')
+            router.push('/')
           }
           resolve(res.data)
         })
@@ -31,6 +32,15 @@ const instance = axios.create({
    put(url,data,config){
     return new Promise((resolve, reject) => {
       instance.put(url, data, config).then(res => {
+        resolve(res.data)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+   },
+   delete(url,data,config){
+    return new Promise((resolve, reject) => {
+      instance.delete(url, data, config).then(res => {
         resolve(res.data)
       }).catch(err => {
         reject(err)

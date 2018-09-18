@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
 import index from '../views/index/index'
+import wiper from '../views/wiper/index'
+import wiperchange from '../views/wiper/wiperchange'
+
 Vue.use(Router)
 const components={
   login:()=>import('../views/login/login'),
@@ -17,6 +20,10 @@ export default new Router({
       path: '/',
       name: 'login',
       component: components.login
+    },
+    {
+      path:'/text',
+      component:()=>import('../views/book/text')
     },
     {
       path:'/layout',
@@ -44,6 +51,33 @@ export default new Router({
           path:'bookEditor',
           name:'bookEditor',
           component:()=>import('../views/book/editor')
+        },
+        {
+          path:'useradd',
+          nmae:'useradd',
+          component:()=>import('../views/users/useradd')
+        },
+        {
+          path:'bookclaeditor',
+          name: 'bookclaeditor',
+          component:()=>import('../views/book/bookclaeditor')
+        },
+        {
+          path:'bookchange',
+          name:'bookchange',
+          component:()=>import('../views/book/bookchange')
+        },
+        {
+          path:'wiper',
+          name:'wiper',
+          component:wiper,
+          children:[
+            {
+              path:'wiperchange',
+              name:'wiperchange',
+              component:wiperchange
+            }  
+          ]
         }
       ]
     }
