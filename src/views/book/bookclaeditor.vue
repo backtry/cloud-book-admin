@@ -2,7 +2,7 @@
     <div class="container">
         <div class="title">
             <h1>{{title.title}}</h1>
-            <img src="title.icon" class="title-img">
+            <img :src="title.icon" class="title-img">
         </div>
         
         <div class="">
@@ -18,7 +18,7 @@
 
                 <el-table-column label="头图" width="300px">
                     <template slot-scope="scope">
-                        <img :src="bookData.img" alt="" class="bookimage">    
+                        <img :src="scope.row.img" alt="" class="bookimage">    
                     </template>
                 </el-table-column>
 
@@ -30,11 +30,13 @@
                 <el-table-column
                     prop="desc"
                     label="简介"
-                    width="300px">
+                    width="500px" class-name="desc">
                 </el-table-column>
-                <el-table-column label="操作" width="300px">
+                <el-table-column label="操作" width="500px">
                     <template slot-scope="scope">
-                        <el-button type='primary'  @click="handlebookchange(scope.row._id)" >修改图书</el-button>    
+                        <el-button round @click="wiperadd(scope.row._id)" >生成轮播图</el-button>
+                        <el-button type='primary'  @click="handlebookchange(scope.row._id)">修改图书</el-button>
+                        <el-button type="danger"  @click="handlebookdelete(scope.row._id)" >删除图书</el-button>    
                     </template>
                 </el-table-column>
             </el-table>
@@ -48,15 +50,21 @@ export default {
         return{
             bookData:[],
             title:'',
-            bookEditor:[]
+            bookEditor:[],
+            swiper:{
+                title:'',
+                img:'',
+                book:''
+            }
         }
     },
     methods:{
         getData(){
             const id = this.$route.query.id
-            this.$axios.get(`/category/${id}/books`,{pn:1,size:10}).then(res=>{
-                console.log(res)
+            this.$axios.get(`/category/${id}/books`,{pn:1,size:100}).then(res=>{
+                // console.log(res)
                 this.bookData=res.data.books
+                    // console.log(this.bookData)
                 this.title=res.data
             })
         },
@@ -79,6 +87,41 @@ export default {
         },
         handlebookchange(id){
           this.$router.push({name:'bookchange',query:{id}})
+        },
+        handlebookdelete(id){
+             this.$confirm('确定要删除该图书吗？','提示',{
+                confirmButtonText:"确定",
+                cancelButtonText:'取消',
+                type:'warning'
+            }).then(()=>{
+            //     this.$axios.delete(`/book/${id}`).then(res=>{
+            //     if(res.code==200){
+            //         this.$message.success('删除成功')    
+            //     }
+            // })
+                    this.$message.success('删除成功，其实并没有，看你自己写的代码')
+            }).catch(()=>{  
+                this.$message({
+                    type: 'info',
+                    message: '取消删除'
+                });
+            })     
+        },
+        wiperadd(id){
+            let _self=this
+            this.$axios.get(`/book/${id}`).then(res=>{
+                // console.log(res)
+                this.swiper.title=res.data.title
+                this.swiper.img=res.data.img
+                this.swiper.book=res.data._id
+                // console.log(this.swiper)
+            }).then(res=>{
+                this.$axios.post('/swiper',_self.swiper).then(res=>{
+                if(res.code==200){
+                    this.$message.success('生成轮播图成功')
+                }
+            })
+            })    
         }
     },
     created(){
@@ -100,5 +143,15 @@ export default {
 
   .el-table .success-row {
         background: #f0f9eb;
+  }
+  .title-img{
+      height: 200px;
+      
+  }
+  .bookimage{
+      height: 100px;
+  }
+  .desc{
+      height: 200px;
   }
 </style>

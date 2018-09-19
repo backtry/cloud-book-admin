@@ -8,10 +8,10 @@
                 <el-input v-model="formData.username"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-                <el-input v-model="formData.passwordconfirm"></el-input>
+                <el-input v-model="formData.password"></el-input>
             </el-form-item>
             <el-form-item label="在次确认密码">
-                <el-input v-model="formData.username"></el-input>
+                <el-input v-model="formData.passwordconfirm"></el-input>
             </el-form-item>
             <el-form-item label="昵称">
                 <el-input v-model="formData.nickname"></el-input>
@@ -21,17 +21,18 @@
             </el-form-item>
             <el-form-item label="头像">
                 <template slot-scope="scope">
-                    <el-popover trigger="hover" placement="top">
+                    
                         <el-upload
                             class="avatar-uploader"
                             action="https://upload-z1.qiniup.com"
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
+                            :before-upload="beforeAvatarUpload"
+                            :data= upload>
                             <img v-if="formData.avatar" :src="formData.avatar" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
-                    </el-popover>
+                    
                 </template>
             </el-form-item>
             <el-form-item label="个性签名">
@@ -49,7 +50,10 @@ export default {
     name:'useradd',
     data(){
         return{
-            
+             
+        upload:{
+                token:''
+            },
             formData:{
                 username:'',
                 password:'',
@@ -57,16 +61,17 @@ export default {
                 email:'',
                 desc:'',
                 avatar:'',
-                passwordconfirm:'',
+            
             }
         }
     },
     methods:{
         addUser(){
-            if(this.formData.password!=this.formData.passwordconfirm){
+            let _self=this
+            if(_self.formData.password!=_self.formData.passwordconfirm){
                 this.$message.error('两次输入密码不一致')    
             }else{
-                this.$axios.post('/user',formData,).then(res=>{
+                this.$axios.post('/user',_self.formData,).then(res=>{
                 if(res.code==200){
                     this.$message.success('管理员添加成功')
                 }
@@ -87,7 +92,15 @@ export default {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
+      },
+       getToken(){
+        this.$axios.get('http://upload.yaojunrong.com/getToken').then(res => {
+          this.upload.token = res.data
+        })
       }
+    },
+    created(){
+        this.getToken()
     }
 }
 </script>
@@ -100,7 +113,7 @@ export default {
 
             .adduser-box{
                 width: 720px;
-                height: 720px;
+                height: 840px;
                 background-color: #fff;
                 border: 1px solid #e8e8e8;
                 border-radius: 6px;
@@ -129,8 +142,8 @@ export default {
     text-align: center;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 124px;
+    height: 124px;
     display: block;
   }
 

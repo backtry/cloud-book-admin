@@ -26,6 +26,10 @@ export default new Router({
       component:()=>import('../views/book/text')
     },
     {
+      path:'/text222',
+      component:()=>import('../views/book/text2')
+    },
+    {
       path:'/layout',
       name:'layout',
       component:components.layout,
@@ -71,13 +75,11 @@ export default new Router({
           path:'wiper',
           name:'wiper',
           component:wiper,
-          children:[
-            {
-              path:'wiperchange',
-              name:'wiperchange',
-              component:wiperchange
-            }  
-          ]
+        },
+        {
+          path:'wiperchange',
+          name:'wiperchange',
+          component:wiperchange
         }
       ]
     }

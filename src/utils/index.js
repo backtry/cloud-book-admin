@@ -5,7 +5,8 @@ import router from '../router/index'
 const baseURL='/api/admin'
 const instance = axios.create({
     baseURL, 
-    timeout: 10000,
+    // timeout: 10000,
+
   })
 
   const xhr = {
@@ -38,6 +39,7 @@ const instance = axios.create({
       })
     })
    },
+
    delete(url,data,config){
     return new Promise((resolve, reject) => {
       instance.delete(url, data, config).then(res => {

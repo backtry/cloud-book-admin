@@ -34,20 +34,49 @@ export default {
     data(){
         return{
             form:{},
-        
+            changeform:{
+                title:'',
+                icon:'',
+                index:''
+            }
         }
     },
     methods:{
         getData(){
             const id = this.$route.query.id
             this.$axios.get(`/category/${id}`).then(res=>{
+                console.log(res)
                 this.form=res.data
             })
         },
         handleChange(value){
             this.sort=value
         },
-        handleclick(){
+        // handleclick(){
+        //     let _self=this
+        //     const id = this.$route.query.id
+        //     this.$confirm('确定要修改该分类吗？','提示',{
+        //         confirmButtonText:"确定",
+        //         cancelButtonText:'取消',
+        //         type:'warning'
+        //     }).then(()=>{
+        //         _self.changeform.title=_self.form.title
+        //         _self.changeform.icon=_self.form.icon
+        //         _self.changeform.index=_self.form.index
+        //         _self.$axios.put(`/category/${id}`,_self.changeform).then(res=>{
+        //         if(res.code==200){
+        //             _self.$message.success('修改成功')    
+        //         }
+        //     })
+        //     }).catch(()=>{
+        //         this.$message({
+        //             type: 'info',
+        //             message: '取消修改'
+        //         });
+        //     })
+            
+        // },
+         handleclick(){
             const id = this.$route.query.id
             this.$confirm('确定要修改该分类吗？','提示',{
                 confirmButtonText:"确定",

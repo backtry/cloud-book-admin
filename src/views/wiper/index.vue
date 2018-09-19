@@ -2,10 +2,10 @@
     <div>
         <h1>我是轮播图，我想要数据</h1>
         <div class="block">
-            <span class="demonstration">默认 Hover 指示器触发</span>
+            
             <el-carousel height="150px">
-            <el-carousel-item v-for="item in 4" :key="item">
-                <h3>{{ item }}</h3>
+            <el-carousel-item v-for="item in wiperdata.length" :key="item">
+                <img src="item.img" >
             </el-carousel-item>
             </el-carousel>
         </div>
@@ -47,21 +47,42 @@ export default {
     name:'wiper',
     data(){
         return{
-            wiperdata:[]
+            wiperdata:[],
+            wiperimg:[]
         }
     },
     methods:{
         getData(){
-            this.$axios.get('/swiper',{pn:1,size:10}).then(res=>{
+            this.$axios.get('/swiper',{pn:1,size:888}).then(res=>{
                 console.log(res)
                 this.wiperdata=res.data
+
+                let arr = [...res.data]
+                arr=arr.map(item=>{
+                    const newarr=[]
+                    newarr.push(item.img)
+                    return newarr
+                })
+                // console.log(arr)
+                this.wiperimg=arr
             })
         },
         wiperChange(id){
             this.$router.push({name:'wiperchange',query:{id}})
         },
         deletewiper(id){
-
+            const deleteid=[]
+            deleteid.push(id)
+            let _self=this
+            const deleteprms={
+                ids:deleteid
+            }
+            this.$axios.post('swiper/delete',deleteprms).then(res=>{
+                if(res.code==200){
+                    this.$message.success('删除成功')
+                    _self.getData()
+                }
+            })
         }
     },
     created(){

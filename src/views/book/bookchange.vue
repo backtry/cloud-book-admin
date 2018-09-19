@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1>修改书籍</h1>
-        <el-form ref="form" :model="bookdata" label-width="80px">
+        <el-form ref="bookdata" :model="bookdata" label-width="80px">
             <el-form-item label="书名">
                 <template slot-scope="scope">
                     <h2>{{bookdata.title}}</h2>    
@@ -9,7 +9,7 @@
             </el-form-item>
             <el-form-item label="书面头图">
                 <template slot-scope="scope">
-                    <img src='bookdata.img' alt="">    
+                    <img :src="bookdata.img" alt="">    
                 </template>
             </el-form-item>
             <el-form-item label="作者">
@@ -32,24 +32,36 @@ export default {
     name:'bookchange',
     data(){
         return{
-            bookdata:{}
+            bookdata:{
+                book_id:'',
+                title:'',
+                index:'',
+                desc:'',
+                author:'',
+                img:'',
+                type:'',
+            }
         }
     },
     methods:{
         getData(){
             const id = this.$route.query.id
+             
             this.$axios.get(`/book/${id}`).then(res=>{
                 console.log(res)
                 this.bookdata=res.data
+                this.bookdata.book_id=res.data._id
             })
         },
         changebook(){
+            let _self = this
             this.$confirm('确定要修改该图书吗？','提示',{
                 confirmButtonText:"确定",
                 cancelButtonText:'取消',
                 type:'warning'
             }).then(()=>{
-                this.$axios.put(`/book`,this.bookdata).then(res=>{
+                
+                _self.$axios.put(`/book`,_self.bookdata).then(res=>{
                 if(res.code==200){
                     this.$message.success('修改成功')    
                 }
