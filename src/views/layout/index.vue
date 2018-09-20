@@ -41,6 +41,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/layout/wiper">轮播图列表</el-menu-item>
+          <el-menu-item index="/layout/wiperadd">添加轮播图</el-menu-item>
         </el-menu-item-group>
       </el-submenu> 
       

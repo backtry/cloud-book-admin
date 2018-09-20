@@ -80,6 +80,11 @@ export default new Router({
           path:'wiperchange',
           name:'wiperchange',
           component:wiperchange
+        },
+        {
+          path:'wiperadd',
+          name:'wiperadd',
+          component:()=>import('../views/wiper/wiperadd')
         }
       ]
     }

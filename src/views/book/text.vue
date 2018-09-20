@@ -1,11 +1,11 @@
 <template>
   <div>
-    <uploadimg @change="getdata"></uploadimg>
+    <uploadimg @change="getdataimg"></uploadimg>
+   
   </div>  
 </template>
 <script>
 export default {
-  name:'text',
   data(){
     return{
       img:''
@@ -17,7 +17,9 @@ export default {
       console.log(this.img)
     }
   },
-  
+  created(){
+    this.getdata()
+  }
 }
 </script>
 <style lang="scss" scoped>

@@ -20,20 +20,7 @@
                 <el-input v-model="formData.email"></el-input>
             </el-form-item>
             <el-form-item label="头像">
-                <template slot-scope="scope">
-                    
-                        <el-upload
-                            class="avatar-uploader"
-                            action="https://upload-z1.qiniup.com"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload"
-                            :data= upload>
-                            <img v-if="formData.avatar" :src="formData.avatar" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                    
-                </template>
+                <uploadimg @change="getdataimg"></uploadimg>    
             </el-form-item>
             <el-form-item label="个性签名">
                 <el-input v-model="formData.desc"></el-input>
@@ -54,18 +41,20 @@ export default {
         upload:{
                 token:''
             },
-            formData:{
-                username:'',
-                password:'',
-                nickname:'',
-                email:'',
-                desc:'',
-                avatar:'',
-            
+        formData:{
+            username:'',
+            password:'',
+            nickname:'',
+            email:'',
+            desc:'',
+            avatar:'',
             }
         }
     },
     methods:{
+        getdataimg(url){
+            this.formData.avatar=url
+        },
         addUser(){
             let _self=this
             if(_self.formData.password!=_self.formData.passwordconfirm){
@@ -78,26 +67,6 @@ export default {
             })
             }
         },
-         handleAvatarSuccess(res, file) {
-        this.formData.avatar = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
-       getToken(){
-        this.$axios.get('http://upload.yaojunrong.com/getToken').then(res => {
-          this.upload.token = res.data
-        })
-      }
     },
     created(){
         this.getToken()

@@ -9,7 +9,9 @@
             </el-form-item>
             <el-form-item label="书面头图">
                 <template slot-scope="scope">
-                    <img :src="bookdata.img" alt="">    
+                    <img :src="bookdata.img" alt="">
+                     <uploadimg v-model="bookdata.img" @change="getdataimg"></uploadimg>
+                    
                 </template>
             </el-form-item>
             <el-form-item label="作者">
@@ -44,6 +46,9 @@ export default {
         }
     },
     methods:{
+        getdataimg(url){
+            this.bookdata.img
+        },
         getData(){
             const id = this.$route.query.id
              
